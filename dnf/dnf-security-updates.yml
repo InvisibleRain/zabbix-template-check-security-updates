@@ -1,0 +1,46 @@
+zabbix_export:
+  version: '6.0'
+  date: '2025-12-11T13:38:31Z'
+  groups:
+    - uuid: dc579cd7a1a34222933f24f52a68bcd8
+      name: 'Linux servers'
+  templates:
+    - uuid: 8c9707363bf0401ba3b77c646de1fbd8
+      template: 'dnf security updates'
+      name: 'dnf security updates'
+      groups:
+        - name: 'Linux servers'
+      items:
+        - uuid: 68b6f7070292404396df47e5d0bc46ae
+          name: 'Number of security updates available'
+          key: 'vfs.file.contents[/var/run/zabbix/dnf-check-update]'
+          trends: '0'
+          value_type: TEXT
+          triggers:
+            - uuid: 6f59261c36bc4ecf8e828aba6df595ad
+              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/dnf-check-update])<>0'
+              name: 'There are security updates available'
+              priority: WARNING
+              manual_close: 'YES'
+        - uuid: 378c540c76e8447c81f22906005e7482
+          name: 'Should the system be restarted'
+          key: 'vfs.file.contents[/var/run/zabbix/needs-reboot]'
+          trends: '0'
+          value_type: TEXT
+          triggers:
+            - uuid: ee36d84fa759444287d68e8c0e3a0b49
+              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/needs-reboot])<>0'
+              name: 'Reboot is required'
+              priority: WARNING
+              manual_close: 'YES'
+        - uuid: d638371773674e41992384c8f5e835d1
+          name: 'Number of services that should be restarted'
+          key: 'vfs.file.contents[/var/run/zabbix/needs-restarting]'
+          trends: '0'
+          value_type: TEXT
+          triggers:
+            - uuid: 01ea22bcdebe4c5e8146c0991f762a83
+              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/needs-restarting])<>0'
+              name: 'Some services need to be restarted'
+              priority: WARNING
+              manual_close: 'YES'

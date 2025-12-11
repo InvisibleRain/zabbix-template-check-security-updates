@@ -1,0 +1,13 @@
+[Unit]
+Description=Zabbix Agent Script
+After=zabbix-agent.service
+Wants=zabbix-agent.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/bin/zabbix-agent/%i.sh
+User=root
+
+[Install]
+WantedBy=multi-user.target
+
