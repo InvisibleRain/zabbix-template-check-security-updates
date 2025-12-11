@@ -1,0 +1,33 @@
+zabbix_export:
+  version: '6.0'
+  date: '2025-12-11T13:34:36Z'
+  groups:
+    - uuid: dc579cd7a1a34222933f24f52a68bcd8
+      name: 'Linux servers'
+  templates:
+    - uuid: 0b99a25e218f437a8dae43e6b20e3b11
+      template: 'apt security updates'
+      name: 'apt security updates'
+      groups:
+        - name: 'Linux servers'
+      items:
+        - uuid: 5e8ac8df78f14ad69acb9ac6aae1050b
+          name: 'Number of security updates available'
+          key: 'system.run[/usr/bin/apt list --upgradable 2>/dev/null | /usr/bin/grep security | /usr/bin/wc -l]'
+          delay: 1h
+          trends: '0'
+          value_type: TEXT
+          triggers:
+            - uuid: 28f5dd1a74c845629b0a7e4d664d2723
+              expression: 'last(/apt security updates/system.run[/usr/bin/apt list --upgradable 2>/dev/null | /usr/bin/grep security | /usr/bin/wc -l])<>0'
+              name: 'There are security updates available'
+              priority: WARNING
+        - uuid: 8fadb38f5b1244de8c1bbfd00e28a2ba
+          name: needrestart
+          key: 'system.run[DEBIAN_FRONTEND=noninteractive /usr/sbin/needrestart -qlk | /usr/bin/wc -l]'
+          delay: 1h
+          triggers:
+            - uuid: e9119926afc24736a0a9e44b1eae9d11
+              expression: 'last(/apt security updates/system.run[DEBIAN_FRONTEND=noninteractive /usr/sbin/needrestart -qlk | /usr/bin/wc -l])>0'
+              name: 'Some services or the kernel need to be restarted'
+              priority: WARNING
