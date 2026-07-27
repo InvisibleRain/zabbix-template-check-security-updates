@@ -5,7 +5,7 @@ Wants=zabbix-agent.service
 
 [Timer]
 Unit=zabbix-agent-script@%i.service
-OnActiveSec=60
+OnUnitInactiveSec=60
 
 [Install]
 WantedBy=multi-user.target
