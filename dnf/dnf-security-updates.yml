@@ -18,7 +18,7 @@ zabbix_export:
           value_type: TEXT
           triggers:
             - uuid: 6f59261c36bc4ecf8e828aba6df595ad
-              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/dnf-check-update])<>0'
+              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/dnf-check-update])>0'
               name: 'There are security updates available'
               priority: WARNING
               manual_close: 'YES'
@@ -29,7 +29,7 @@ zabbix_export:
           value_type: TEXT
           triggers:
             - uuid: ee36d84fa759444287d68e8c0e3a0b49
-              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/needs-reboot])<>0'
+              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/needs-reboot])>0'
               name: 'Reboot is required'
               priority: WARNING
               manual_close: 'YES'
@@ -40,7 +40,7 @@ zabbix_export:
           value_type: TEXT
           triggers:
             - uuid: 01ea22bcdebe4c5e8146c0991f762a83
-              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/needs-restarting])<>0'
+              expression: 'last(/dnf security updates/vfs.file.contents[/var/run/zabbix/needs-restarting])>0'
               name: 'Some services need to be restarted'
               priority: WARNING
               manual_close: 'YES'
